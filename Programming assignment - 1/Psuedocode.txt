@@ -1,0 +1,59 @@
+This program is written to calculate the runtime of the multiplication of 1000 numbers of different n-bit values.
+
+import TIMING and RANDOM NUMBER GENERATOR libraries
+
+function initialize(bits) 
+    // Set max and min integer values for the n-bits considered
+    // Also set the ‘mask’ which will prevent overflow.
+    MAX_INT = (((2 ^ (bits * 2)) / 2) - 1)
+    MIN_INT = ((2 ^ (bits * 2)) /  2)
+    MASK = (2 ^ (bits * 2))
+
+function generateRandomNum() 
+    // Use random number generator library to generate random signed 	integer inputs for a particular n-bit value. These are used 	as inputs for multiplication.
+    return number in the range (-2 ^ (bits - 1)) to (2 ^ (bits - 1))
+
+// Multiply involves addition in the intermediate stages
+function add(x, y)  
+    WHILE (y != 0)
+        carry = x Logical_AND y
+        x = ((x Logical_XOR y) % MASK)
+        y = ((carry << 1) % MASK)
+    IF (x <= MAX_INT)
+        return x
+    ELSE
+        //Number is negative
+        return (~(x % MIN_INT) Logical_XOR MAX_INT) 
+
+function multiplyFunction(x, y)
+    result = 0
+    WHILE (y != 0)
+        IF (y Logical_AND 1)
+            result = add(result, x) //Call the add function 
+        
+        x = ((x << 1) % MASK)
+        y = ((y >> 1) % MASK)
+    return result
+
+// START TEST_CODE
+//  Only contains the code that has to be timed
+
+i = 0
+WHILE (i < 1000)
+    number1 = generateRandomNum()
+    number2 = generateRandomNum()
+    res = multiply(num1, num2)
+    i = i + 1
+
+// END TEST_CODE
+
+// START SETUP_CODE
+//  Initialize variables needed for the TEST_CODE
+//  Variable bits can be any one of the following values:
+//  4, 8, 16, 32, 64, 128, 256, 512
+
+initialize(bits)
+
+// END SETUP_CODE
+
+// Using the timing library to call the TEST_CODE to calculate execution time.
